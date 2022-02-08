@@ -25,3 +25,4 @@ The code and program are now free under the terms of the Perl
 Artistic Licence    http://language.perl.com/misc/Artistic.html
 
 Author: Brad Templeton
+Retrieved from: https://www.templetons.com/brad/alice.html
