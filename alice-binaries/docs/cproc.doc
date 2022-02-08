@@ -1,0 +1,430 @@
+
+
+
+
+
+1.  The C Routines
+
+      This file lists C routines that can be called via
+"Cproc" and friends.  Each description gives the index
+number of the routine (i.e.  the argument that is passed to
+the interface subprogram to indicate what routine you are
+calling), the interface subprogram that should be used in
+calling the C routine, and the calling sequence of the C
+routine.  For example, if we say
+
+          Routine: "atoi(num : ^str)"
+          Index Number: 0
+          Called with: CIntFunc
+          Returns: integer
+
+we mean that the C routine "atoi" can be called with
+
+          i := CIntFunc(0,num);
+
+0 is the index number of "atoi".  "num" should be a pointer
+to a string.  The "atoi" routine returns an integer.
+
+WARNING:  These interfaces are provided for the convenience of
+experimenting users only.  THERE IS NO GUARANTEE THEY WILL BE
+PRESENT OR THE SAME IN FUTURE VERSIONS OF ALICE.  Support is planned
+for the menu and windowing libraries, but only if they are called
+through the approved routines in the ALICE libraries.
+
+Routine: "atoi(num : ^str)"
+Index Number: 0
+Called with: CIntFunc
+Returns: integer
+
+     Like the C library function.  Takes a pointer to a
+string and expects it to be a string of decimal digits.
+Converts to an integer, no error-checking.
+
+Routine: "sprintf( str, format, arg, arg, ...  )"
+Index Number: 1
+Called with: CProc
+Returns: Nothing
+
+     As in the C library.  See above notes on strings.  May
+also be called with "CPtrFunc", returning the first argu-
+ment.
+
+Routine: "longop( function_number, long1, long2, ptr )"
+Index Number: 2
+Called with: Cproc
+Returns: Long or Real through a pointer
+
+     This routine performs various operations on long integers.
+Long integers are 32 bit values with Pascal can only treat as two
+sequential integers.  To pass a long value, you actually pass two
+integers.  The low one comes first and the high one second, since
+C routines get their arguments pushed on the stack in reverse order.
+You can also create a record of the form
+	type long = record low,high : integer; end;
+for convenience, but you can't pass long integers by value this way
+as records get their address passed to Cprocs.
+
+     The ptr argument can be the address of a long integer record
+(as described above) or a real number, depending on the function number.
+The result is stored in the object pointed to.
+
+     Function #1 is long multiplication.
+     Function #2 is long division.
+     Function #3 is long addition.
+     Function #4 is long subtraction.
+
+     If you add 16 to the function number, the result will be converted
+to real and stored as such.  The ptr should point to a real variable.
+You can use this to convert longs to reals by adding zero to them with
+function 19.
+
+Routine: "strchr( string : ^str, ch : char )"
+Index Number: 3
+Called with: CPtrFunc
+Returns: strptr
+
+     C library routine, UNIX System III or System V.  Called
+"index" in other versions.  Hunts for the char in the given
+string, returns a pointer to it.  Returns zero if character
+not found.
+
+Routine: "malloc( size )"
+Index Number: 4
+
+
+
+
+
+Called with: CPtrFunc
+Returns: Pointer
+
+     Allocates a block of memory of "size" bytes, returns a
+pointer to it.  "Nil" returned if no memory available.  See
+C Library documentation.
+
+Routine: "allocstring( string : ^str)"
+Index Number: 5
+Called with: CPtrFunc
+Returns: strptr
+
+     Given a pointer to an ALICE string, this routine
+allocates memory for it, copies the string, and returns a
+pointer to the new string.  An internal ALICE error happens
+if there is not enough memory left.
+
+Routine: "new_menu"
+Index Number: 6
+Called with: CProc
+Returns: Nothing
+
+     Indicates the start of a new menu.  See supported ALICE
+library routines in "menu.ap" for access.
+
+Routine: "add_menu_item"
+Index Number: 7
+Called with: CProc
+Returns: Nothing
+
+     Adds an item to a menu.  See supported ALICE library
+routines in "menu.ap" for access.
+
+Routine: "pop_menu"
+Index Number: 8
+Called with: CIntFunc
+Returns: integer
+
+     Displays a menu.  In general, you issue "new_menu",
+then several "add_menu_item" calls to list the items on the
+menu, then "pop_menu" to display the actual menu.  See
+supported ALICE library routines "menu.ap" for access.
+
+Routine: "table_lookup"
+Index Number: 13
+Called with: CPtrFunc
+Returns: Pointer
+
+     Does simple fast table lookups, returning a pointer to
+the data in a table indexed by a byte.  See supported
+routine.
+
+
+
+
+
+
+Routine: "getprline( prompt, buffer : ^str, length )"
+Index Number: 14
+Called with: CProc
+Returns: Nothing
+
+     This internal ALICE routine gets a string on the ALICE
+command line, in the same manner that is used when ALICE
+asks a question.  "prompt" is a pointer to a prompt string,
+and "buffer" is a pointer to the buffer where the answer
+should go.  "length" is the maximum size of string that can
+go in the buffer.
+
+Routine: "n_num_children( n : ^node )"
+Index Number: 15
+Called with: CIntFunc
+Returns: integer
+
+     The first of the internal ALICE editing routines.
+ALICE keeps your program as a tree full of nodes of varying
+size.  Given a pointer to a node, this routine says how many
+children it has.  For example, an addition node has two
+children.
+
+Routine: "blk_move( to,from:pointer; bytes:integer )"
+Index Number: 16
+Called with: CProc
+Returns: Nothing
+
+     "to" and "from" are general pointers to areas of
+memory.  "bytes" is the number of bytes to move.  This block
+move will work in either direction.
+
+Routine: "display( fulldisplay : boolean )"
+Index Number: 17
+Called with: CProc
+Returns: Nothing
+
+     Given a value of "true", this routine will update the
+ALICE display.  With an argument of "false", it only updates
+what ALICE thinks has changed since the last display.  If
+your routines clear the screen, they can call this to re-
+store it.
+
+Routine: "do_command( token )"
+Index Number: 18
+Called with: CProc
+Returns: Nothing
+
+     This useful routine lets you simulate almost all ALICE
+input.  With an argument of 0, it looks in the buffer
+tokentext for an ALICE command line, and executes it.  With
+a non-zero argument, it acts as though the pascal reserved
+word indicated by that number had just been typed in.  The
+table of such token numbers is currently not supported --
+sorry.  There is a supported routine to issue commands.
+
+1.1.  Editing Primitives
+
+       Routines 19 through 26 are the ALICE editing
+primitives which can manipulate the ALICE program tree.
+Their use is currently supported inside subroutine libraries
+written by Looking Glass Software.  For your information,
+they are called: "graft" [19], "prune" [20], "exp_list"
+[21], "del_list" [22], "change_nodetype" [23], "fresh_stub"
+[24], "tree" [25] and "newlist" [26].
+
+1.2.  More C Routines
+
+
+
+Routine: "warning( formatstring : ^str, arg, arg, ...  )"
+Index Number: 28
+Called with: CProc
+Returns: Nothing
+
+     This routine takes arguments like the C standard
+"printf" routine but it generates a warning message on the
+ALICE error line.
+
+Routine: "hash( name : ^str )"
+Index Number: 29
+Called with: CIntFunc
+Returns: integer
+
+     A hashing function for general use.  Not supported.
+
+Routine: "macroize( string : ^str )"
+Index Number: 30
+Called with: CProc
+Returns: Nothing
+
+     This routine takes a string of the form typed in during
+macro definition time, including backslash escapes, and
+turns it into a primitive string ALICE can understand as
+keyboard input.  The new string replaces the old one.
+
+Routine: "macpush( string : ^str )"
+Index Number: 31
+Called with: CProc
+Returns: Nothing
+
+     "Pushes" the given string on the ALICE keyboard input
+stream, so it will seem as though the user typed it to the
+ALICE editor when it next asks for input.  Can be used in
+conjunction with macroize.
+
+Routine: "fopen( filename : ^str, mode : ^str )"
+Index Number: 32
+Called with: CPtrFunc
+Returns: ^stdiofile
+
+     The C stdio routine "fopen".  It is modified to accept
+the ALICE "?:" device convention.  See \aplib for supported
+library functions.Use at own risk.
+
+Routine: "fclose( fd : ^stdiofile )"
+Index Number: 33
+Called with: CProc
+Returns: Nothing
+
+     See \aplib for supported library functions.
+
+Routine: "fprintf( fd : ^stdiofile, format : ^str, arg, arg,
+...  )"
+Index Number: 34
+Called with: CProc
+Returns: Nothing
+
+     See \aplib for supported library functions.
+
+Routine: "fseek( fd : ^stdiofile, wh1, wh2, how )"
+Index Number: 35
+Called with: CProc
+Returns: Nothing
+
+     With seek, a long (4 byte) argument is required.  Two
+integers can be used.  See \aplib for supported library
+functions.
+
+Routine: "fflush( fd : ^stdiofile )"
+Index Number: 36
+Called with: CProc
+Returns: Nothing
+
+     See \aplib for supported library functions.
+
+Routine: "getc( fd : ^stdiofile )"
+Index Number: 37
+Called with: CIntFunc
+Returns: integer
+
+     See \aplib for supported library functions.
+
+Routines 38 through 47 access the Looking Glass "curses"
+windowing package.  There are supported routines to do this.
+
+See "aplib\window.ap" for these routines and their comments.
+You may have to REVEAL them to see the contents.
+
+Routine: "time( ^long )"
+Index Number: 54
+Called with: CProc
+Returns: long
+
+     This routine places a long integer in the variable pointed to by
+its argument.  The integer is the number of seconds elapsed today
+since midnight.  The older version of this routine gave the number
+of seconds since Jan 1, 1970 but this is no longer supported.
+See time routines in the DOSINT library for other ways to get the time.
+
+
+Routine: "rand()"
+Index Number: 55
+Called with: CintFunc
+Returns: integer
+
+Access to ALICE's internal random number generator.  A random number
+from -32768..32767 is generated.  Use the random function instead.
+
+
+Routine: "ftell( fd : ^stdiofile )"
+Index Number: 56
+Called with: CLongFunc
+Returns: long
+
+Returns the position in bytes of the file pointer for the given C
+stdio file.  Use the Turbo library FilePos instead.
+
+Routine: "fillchar( loc : Pointer; filler : byte; count : integer )"
+Index Number: 57
+Called with: Cproc
+
+This routine fills a region of memory with a given byte.  The memory is
+not marked as initialized.  This is very fast.  Use the FillChar
+Turbo library routine instead.
+
+
+Routines 58 and 59 are C stdio block read routines fread and fwrite.
+Use the BlockRead and BlockWrite library routines instead.
+
+Routines 60 and above are machine dependent.
+
+Routine: "intdos( inreg, outreg : ^regs )"
+Index Number: 60
+Called with: CProc
+Returns: Nothing
+
+     Performs a DOS function.  The arguments are pointers to
+structures containing the 8086 registers on input and
+output.  Use the Intr and MsDos procedures instead.
+
+Routine: "int86( intnum : integer; inreg, outreg : ^regs )"
+Index Number: 61
+Called with: CProc
+Returns: Nothing
+
+     Does a general 8086 interrupt call.  The interrupt number
+is the first argument.  Use the Intr and Msdos procedures instead.
+
+Routine: "int86x( intnum : integer; inreg, outreg : ^regs; sreg ^segments )"
+
+Index Number: 62
+Called with: CProc
+Returns: Nothing
+
+     Does a general 8086 interrupt with segment register
+arguments passed as well.  Use the Intr procedure instead.
+
+Routine: "segread( segs : ^segments )"
+Index Number: 63
+Called with: CProc
+Returns: Nothing
+
+     This reads the 4 segment registers into the record
+passed to it.  See the library for definition of this
+record.  Use the Dseg, Sseg routines from the Turbo library
+instead.
+
+Routine: "inp( port : integer )"
+Index Number: 64
+Called with: CIntFunc
+Returns: byte
+
+     This reads a byte from an 8086 I/O Port address.  Use
+the inp function in DOSLIB.AP
+
+Routine: "outp( port : integer; val : byte )"
+Index Number: 55
+Called with: CintFunc
+Returns: integer
+
+     Outputs a given byte to an 8086 I/O Port address.  Deal with
+I/O ports at your own risk.  Use the outp procedure in DOSLIB.AP
+
+Routine: "unlink( filename : ^str )"
+Index Number: 67
+Called with: CProc
+Returns: Nothing
+
+     Deletes the selected file from the disk.  If used as a
+CIntFunc, it returns 0 on success and -1 on an error.
+Use the Turbo library routine Erase instead.
+
+
+
+Please refer to the library "doslib.ap" in the "aplib"
+directory for information on other routines that allow
+machine specific functions such as low level i/o, block
+moves, machine language calls and loading assembler
+libraries.  Use of these routines is normally reserved to
+Looking Glass Software.  Current plans do not call for the
+support for these routines in future versions of the ALICE
+system.  Use portable routines found in libraries where
+possible.
+
+

@@ -1,0 +1,239 @@
+
+		   ALICE: The Personal Pascal
+
+			Product Updates
+
+Points of Clarification:
+------------------------
+
+    When you change a declaration, ALICE does not do an automatic typecheck
+of the whole program to correct error flags.  If you want this to happen, you
+must request a typecheck yourself with CTRL-T.  You may become confused
+because errors don't go away immediately when you fix a declaration. (If you
+want typechecks to be done constantly, look up the "f=" command line option.)
+
+    We have now defined ALT-F10 to do a "MOVE clip" command and ALT-F9 to do
+a "GET clip" command so that you can use these keys for cut and paste to a
+clipboard.  Handy for quickly moving pieces of code around in your programs.
+You use ALT-F10 like a delete, and ALT-F9 picks it up again.
+
+Please Note:
+-----------
+
+    In order to leave more space for new example programs and Turbo functions,
+and to allow you to easily create a few of your own files on the ALICE disks,
+the stand alone ALICE interpreter (APRUN.EXE) is no longer provided with the
+normal ALICE distribution.  It is now part of the ALICE supplemental kit that
+includes both APRUN.EXE and the Large Model version of ALICE.  There is an
+order form for this kit in the back of your User Guide.
+
+New Enhancements:
+----------------
+
+1)      The HELP command's command line (CTRL-X) argument is assumed to be the
+	name of a built in symbol if it contains no slash (/).  Thus you can
+	get help on any symbol by typing its name.  For example:
+		>help writeln
+
+2)      The Val procedure allows leading and trailing spaces if the +b option
+	is NOT used (ie. -b).  With +b they are rejected as documented in the
+	Turbo Pascal manual.  We want to allow the spaces because Str with no
+	field width puts a leading space on integers if +b is not used.
+
+3)      If you select (F10) a procedure or function that has no arguments, it
+	is no longer possible to select just the name.  The whole call is
+	selected, which is more convenient for deleting and other such
+	operations.  It isn't more convenient if you wish to edit the name, so
+	selection of names as a LEAF (without hitting F10) is still possible.
+
+4)      The new '-s' option disables the requirement that you SELECT (F10)
+	before deleting, editing or moving large structures.  This should only
+	be used by people well familiar with the tree structure of Pascal
+	programs, as otherwise you will never be sure about what you are about
+	to delete.  There is always UNDO (CTRL-U) if you make a mistake.  You
+	still need to SELECT to delete multiple items or to use new feature
+	(3) above.
+
+5)      On your disk is a sample inventory program in ALICE Pascal free from
+	Looking Glass Software.  You can use, modify and even resell this
+	program, so long as credit is always given to the ALICE system and
+	Looking Glass Software.
+
+6)      New command: COMPILE
+
+	This command saves out the current file as text with the TEXT command
+	and then acts like the DOS command, usually to invoke a Pascal
+	compiler like Turbo Pascal.  The CTRL-F6 key is now defined to use
+	this command.  Note that the file is not saved in ALICE's ".AP"
+	format.  This means that if you crash while executing your DOS
+	command, you will have to recover your file with the APIN command.
+
+Known Bugs:
+----------
+
+Unfortunately this new release of ALICE: The Personal Pascal, like most new
+programming language systems, has a few minor problems.  The following bugs
+are either chronic or were not reported in time to be corrected prior to
+release.  To help you avoid them, please note the following:
+
+o  If ALICE runs out of memory while loading a program, some memory is lost
+   for the remainder of the current editing session.  Usually it's not very
+   much.  The solution is to save out, quit ALICE and begin again.  This
+   also frees up memory lost to "fragmentation" in a long session.
+
+o  There are problems using ALICE with out of date releases of Borland
+   International's "Sidekick" program.   If you have problems with "break"
+   or ALT keys while running Sidekick, update your Sidekick.
+
+o  ALICE's handling of field references and WITH statements is not perfect
+   when record declarations are deleted or the variable in a WITH statement is
+   deleted.  Things that are implied field references that should become
+   variables are not changed, and variables that should become implied fields
+   are not changed either.  One way to correct any field problems in the body
+   of a WITH statement is to MOVE (ALICE command) the whole body out to a
+   workspace and COPY it back in.  This re-looks up any symbol references.
+
+o  If you use the EDIT command to edit expressions, be warned that
+   placeholders just get placed in the editing buffer as regular text.  When
+   you are finished editing, they will not be turned back into placeholders,
+   so you might get messages saying that the symbol "Value" is undefined.
+
+o  You can't enter the integer constant -32768 because Pascal defines
+   negative constants as a negative sign and a positive constant.  32768
+   isn't a valid positive constant, so an error is generated.  Be warned
+   that ALICE only allows you to access the number -32768 in order to
+   do system work, and may revoke this privilege.  For now, you can only get
+   this number by arithmetic operations.
+
+o  Beware of using CProc routines like the CURSES windowing library when
+   low on memory.  If these routines run out, they simply return error
+   indicators and don't announce the fact or interrupt your program.
+   If you don't check for trouble, (like a 0 return from newwin) you can
+   step all over the memory of your computer, causing ALICE to "hang."
+   Remember also that memory allocated by these routines is not de-allocated
+   for you by the system.  If your program doesn't explicitly delete windows
+   it creates the memory will be lost for the rest of the ALICE session.
+
+o  Be warned that searching for small strings (for example, just the letter
+   "e") can catch you up.  "e" will be found in words like "begin" and "end",
+   which are everywhere in the program.  What's worse, ALICE doesn't really
+   have a concept of putting the cursor on a word like "begin" and "end", so
+   it often moves the cursor to the main thing in the block containing the
+   found word.  This can be annoying, so be sure to be more specific in your
+   searches.  Remember that ALICE is *not* a text editor, and you can't really
+   treat it like one.
+
+User Guide Errata:
+-----------------
+
+PAGE    DESCRIPTION
+
+3]      Other additions include the new commands VIEW and COMPILE, plus other
+	new features listed in this file.
+
+4]      Recent additions to the ALICE team include Tom Haapanen and Tim
+	Tyhurst, who have worked on testing and the sample programs.
+
+10]     Expressions being edited are displayed in Bold Cyan on color monitors.
+
+12]     (Bottom) The options described are the "s=" and "l=" options.
+
+37]     "Files In" Menu.  'The special entry ".. <DIR>" refers to the'
+	', there will be no ".. <DIR>" entry.'
+
+38]     3.2.2: You can only load a .PAS file if you type it in explicitly.
+	They do not show up on menus.  APIN is now on the ALICE System disk,
+	rather than the supplemental disk.  Note that it needs TURBOLIB.AP
+	to run correctly which is also on the System disk.
+
+74]     If Delete is given an argument, it always leaves a placeholder
+	unless the object being deleted is a placeholder already.
+
+75]     You cannot enclose statements in a WITH, as this is not a safe
+	practice due to the confusing scope rules.  If you must, "Move" the
+	statements to a clipboard workspace and "Get" them back from it
+	inside a WITH.
+
+93]     The graphics buffer view system is not designed to work with TextMode
+	on a monochrome display adapter.
+
+101]    Get from the clipboard is on ALT-F9
+
+102]    Move to the clipboard is on ALT-F10
+
+115]    "C?NN" should read "C?=NN"
+
+117]    'The option "-i" asks for the alternate indentation style described
+	later in this chapter'
+
+118]    The default for the location stack is 1/8th the size of the runtime
+	stack.
+
+	The default for the size of the runtime stack is s=0, which means that
+	it calculates an appropriate size based on your available memory.  On
+	a PC with lots of memory, this is around 15K.
+
+127]    Note the new COMPILE command is much more appropriate here.  Also note
+	that it is already set up for Turbo Pascal with CTRL-F6.
+
+135]    Predefined constants:  The mention of Pi (3.14159...) and Strend (#0)
+	belongs first.  Ignore the part about "one other special constant."
+
+145]    The example of a multidimensional initialized array is incorrect.  The
+	definition of the type must come before its use in the initialized
+	variable.  Reverse the TYPE and CONST blocks.  (You can get a
+	declaration block out of the proper order by creating a declarations
+	placeholder and typing the declarations keyword [TYPE,CONST,VAR,etc.]
+	on the placeholder.)
+
+152]    Right after the section header for 7.7 there should be a subsection
+	header "Changed routines from Standard Pascal."
+
+161]    7.7.16 - The ALICE "GRAPH.P" is in \TURBO\GRAPH.P on the Supplemental
+	disk.
+
+165]    With the +b option, EOLN is true if EOF is true.
+	With the -b option, Val allows leading spaces in numbers.
+
+199]    The special "eoln at start of numeric read" feature only applies when
+	reading from INPUT.
+
+210]    Textmode output on the Monochrome display adapter can't be viewed
+	with the VIEW command.  It's tough to single step.
+
+212]    Alice's VAL differs slightly from Turbo's on the location of the first
+	error in a number.  ALICE's VAL gives you the location of the last
+	character in the string that has a valid number to the left of it.
+
+214]    The last two paragraphs in the Writeln section belong under write,
+	although they also apply to writeln.
+
+233]    Continue is CTRL-F1.
+
+238]    Variant part template:  There is no "end" in a variant.
+
+241]    APRUN has been removed to conserve disk space.  It is available with
+	the ALICE Large model kit.  If you wish to distribute APRUN for
+	commercial purposes, the fee is very low, and intended only to cover
+	our costs of registration.  We simply want to keep track of where
+	our software is going.
+
+	Normally, we expect users wishing to run software standalone will
+	compile with a regular compiler.
+
+246]    Also copy TURBOLIB.AP from the main disk to the ALICE directory.
+
+265]    There is no dash in INLINE.  Buflen is also not supported.  It and
+	other unsupported features are all reported by APIN when encountered.
+
+271]    4th para.  Register CS must also be preserved.  Note that some machine
+	language libraries we have encountered for Turbo Pascal (notably
+	LINE.INV, a line drawer) are NOT preserving the BP register and thus
+	cause crashes.  Be sure you preserve this register.
+
+Help System Errata:
+------------------
+
+On the help screen for "Pop suspended state", the key referenced should
+be CTRL-O.
+

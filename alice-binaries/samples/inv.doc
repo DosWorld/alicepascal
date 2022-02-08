@@ -1,0 +1,158 @@
+
+
+			 Alice Inventory
+			 ---------------
+
+	  Alice Inventory is a sample program to demonstrate  the
+capabilities  of  Alice:  The  Personal  Pascal.   It will run on
+version 1.3 or later.  It can not, unlike most Alice programs, be
+compiled with Turbo Pascal, as it uses a number of Alice features
+(such as menus) that are not part of Turbo Pascal.
+
+	  This program  is  Copyright,  1986,  by  Looking  Glass
+Software  Ltd.   It  may  be distributed freely provided that the
+copyright notices are not removed.
+
+
+Running Alice Inventory
+-----------------------
+
+	  To run the Alice Inventory program start up the Alice
+Pascal programming environment and load the file INV.AP.  You can
+now  edit,  examine  and modify the program as you wish, and then
+run it by pressing F1.
+
+Do NOT hit Control-Z or F6 to generate an end-of-file while Alice
+Inventory  is  waiting for input.  Alice Inventory does not check
+for an end-of-file condition from the terminal and  thus  a  run-
+time error will result from hitting F6 or Control-Z.
+
+Hitting Break during execution may result in an  incomplete  file
+update.   If  you suspect that this has happened, select the file
+compression option (see below) as this will restore all the  data
+in the control file.
+
+
+Using Alice Inventory
+---------------------
+
+
+	  When you start Alice Inventory for the first  time,  it
+will  create  the  inventory  file  and  the control file on your
+current disk.  These files, SAMPLE.INV and SAMPLE.CTL (the  names
+may  be  changed  by  modifying a constant in the program) should
+then always be on your current disk when you run Alice  Inventory
+the subsequent times.
+
+Whenever you start  Alice  Inventory,  it  will  check  that  the
+inventory  and  control  files  exist  on  the  current  disk and
+directory.  If one or both  do  not  exist,  the  files  will  be
+initialized.
+
+	  After the startup screen, Alice Inventory will  display
+the  main  menu  on  the  screen.   The  main  menu provides five
+functions, which are described in detail below:
+
+
+     1. Update operations
+
+     Making this selection will replace the main  menu  with  the
+     update menu.
+
+     The update menu choices are explained below:
+	  1.1 return to previous menu
+	  This will return the main menu on the screen.
+
+	  1.2 Retrieve item
+	  This will retrieve all  the  information  for  a  given
+	  inventory item from the inventory file.
+
+	  1.3 Add item
+	  This will  allow  adding  of  items  to  the  database.
+	  Initially, the database is empty, and you must add some
+	  inventory  items  prior  to  being  able   to   perform
+	  reporting or retrieval operations.
+
+	  1.4 Change item price
+	  This will permit price changes to  a  given  item.   In
+	  order  to change the item code (referred to as 'key' in
+	  the program) the item must be deleted and re-inserted.
+
+	  1.5 Delete item
+	  This will delete an item from the  inventory  database.
+	  Note that the spaced used by the item is not recovered.
+	  In order to recover the space freed by  deletions,  you
+	  must perform a compression on the inventory database.
+
+
+     2. Database operations
+
+     This will replace the main menu with the database menu.  The
+     database   menu  has  a  number  of  operations,  which  are
+     described in detail below:
+
+	  2.1 Return to previous menu
+	  This will return to the main menu.
+
+	  2.2 Display inventory items
+	  This will display all the database items on the screen.
+	  The  display  includes the item code, item description,
+	  quantity on hand, quantity on order  and  number  sold.
+	  For more detailed output, select the inventory report.
+
+	  2.3 Print inventory report
+	  This will print a report of all the inventory items  on
+	  the  screen.   The report contains two detail lines for
+	  each  item,  and   includes   the   item   code,   item
+	  description,  quantity  on  hand,  quantity  on  order,
+	  number sold to date, purchase cost, selling  price  and
+	  dollar sales to date.  The total dollar amount of sales
+	  is also printed at the end of the report.
+
+	  2.4 Compress inventory database
+	  This allows recovery of  space  freed  by  deletion  of
+	  inventory  items.   It  also allows changing of maximum
+	  inventory size  (by  changing  the  hash  table  size).
+	  Default maximum size is 500 items.
+
+	  2.5 Initialize inventory database
+	  This will initialize the inventory database  and  ERASE
+	  ALL  ITEMS  IN  INVENTORY.   Do not use this operation
+	  unless you really do want to erase everything!
+
+
+     3. Sell an item
+
+     This will record a sale.  A sale consists  of  one  or  more
+     copies  of  ONE  item.  If multiple items are sold, multiple
+     sale transactions must be made. If there is  not  sufficient
+     stock  to cover the transaction, the system will ask whether
+     an order should be placed to cover the  remainder.   If  so,
+     the quantity on order is increased appropriately.  note that
+     the items ordered are not yet considered sold.
+
+     You can also accept returns of an item.  to do this,  select
+     the  'sell' action as above, and enter the quantity returned
+     as a negative number (i.e. -5 for five returned items).
+
+
+     4. Add to stock
+
+     This will record the arrival of an order.  the  quantity  on
+     hand  is  increased  by  the  amount  of  the order, and the
+     quantity on order is reduced by the  same  amount  (although
+     never to less than zero).  As above, returns to supplier can
+     be entered as negative entries.
+
+
+     5. Quit
+
+     This will terminate the the program, after first  completing
+     any updates, and return you to either the Alice editor or to
+     DOS (depending on where you  started  the  execution).   You
+     should  never  hit  Break  to quit as this may result in the
+     corruption of your inventory.
+
+
+     Good luck!
+

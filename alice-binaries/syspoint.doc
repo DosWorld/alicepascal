@@ -1,0 +1,247 @@
+This file defines the values that are returned by the
+SysPointer routine.  These values are generally pointers
+to interesting locations within the ALICE data space.
+Use of these things is very risky, and not generally for
+beginners.  In particular, use of these pointers is not
+guaranteed to be supported in different versions of ALICE.
+Always use provided library routines to interface wherever
+possible.
+
+
+"SysPointer(0)"
+Points to: "comargs : packed array [1..255] of char"
+
+     A pointer to the command line arguments of the last
+executed ALICE command.  In general, this is of interest
+with an EXECWS command.  You can examine arguments to figure
+out what the user desired with this EXECWS.  The start of
+this buffer will be the name of the executed workspace in
+this case.  This is usually a pointer into tokentext (see
+below).
+
+"SysPointer(1)"
+Points to: "pg_out : window"
+
+     A pointer to the Looking Glass Software curses window
+for user program output.  Useful in calling window routines
+with "Cproc".
+
+"SysPointer(3)"
+Points to: "cursor : node"
+
+     A pointer to the node that is the current cursor loca-
+tion in the main editing window.
+
+"SysPointer(4)"
+Points to: "curr_workspace : node"
+
+     A pointer to the current workspace, which is the root
+of the program tree.
+
+
+"SysPointer(5)"
+Points to: "tokentext : packed array [1..255] of char"
+
+     The input buffer ALICE uses for tokens and commands.
+Stuff this buffer with command text when executing
+do_command, among other things.
+
+"SysPointer(6)"
+Points to: "step_flag : integer"
+
+     This flag controls debug operations.  You can set it to
+start and stop cursor following, or to put the system in
+single-step mode, causing a breakpoint.  The only supported
+bit is the "2" bit.  To turn cursor following on, "or" in
+the 2 bit.
+
+"SysPointer(7)"
+Points to: "step_delay : array[1..2] of integer"
+
+     This is really a "long" but to Pascal you must
+represent it as an array of two integers.  This times a
+delay between cursor-following steps.  You can set this to
+slow cursor-following down.
+
+"SysPointer(8)"
+Points to: "what_computer : integer"
+
+     This integer contains a code that describes what sort
+of computer you are using.  Current defined codes are
+
+          1 -- IBM-PC/MS-DOS
+          2 -- Burroughs ICON
+          3 -- UNIX(TM) Systems
+          4 -- IBM-PC/QNX
+
+
+"SysPointer(9)"
+Points to: "check_frequency : integer"
+
+     This is the code set by the "f=" option on the command
+line.  It can be assigned various numbers (currently
+0,2,4,6) that set how frequent interactive type-checking
+will be.
+
+"SysPointer(10)"
+Points to: "stdin : ^stdiofile"
+
+     The standard C "stdin" file.
+
+"SysPointer(11)"
+Points to: "stdout : ^stdiofile"
+
+     The standard C "stdout" file.  Be warned that using
+"stdin" and "stdout" will conflict with ALICE window output.
+
+"SysPointer(13)"
+Points to: "stdscr : ^ window"
+
+     The root "whole screen" window of the Looking Glass
+Software curses window system.
+
+"SysPointer(14)"
+Points to: "keymacros : array[0..270] of packed array [1..N]
+of char"
+
+     This is the table that maps keys to macros.  For each
+key, if the pointer is not-nil, the keystroke is expanded to
+the associated string.
+
+"SysPointer(15)"
+Points to: "Attr_Map : array[0..20] of integer"
+
+     An array of attributes for all the various elements of
+a program.  These are the "colours" set by the "c=" command
+line option.
+
+"SysPointer(17)"
+Points to: "curWindows : array[0..4] of ^ window"
+
+     An array of all the Looking Glass Software curses
+windows ALICE is using.
+
+"SysPointer(19)"
+Points to: "NodeNames : array[0..100] of ^ packed array
+[1..N] of char"
+
+     An array of English names for the various elements of
+the Pascal language.
+
+"SysPointer(21)"
+Points to: "sel_node : ^node"
+
+     When in SELECT mode, this is the selected node or list.
+
+"SysPointer(22)"
+Points to: "sel_first : integer"
+
+     When in SELECT mode, this is the first element in a
+selected list, or -1 if the selection is not a list.
+
+"SysPointer(23)"
+Points to: "sel_last : integer"
+
+     The last element in a selected list.
+
+"SysPointer(24)"
+Points to: "safe_reserve : array[0..19] of integer"
+
+     THe return value here points to this 40 byte array
+which may be used to keep permanent values.  This is useful
+if you need to keep information through several runs of an
+"execws" call.  Of course, if somebody else is also using
+this area, beware.  You may want to set up a system where
+people use the first few bytes in the reserve area to
+reserve other areas.  You may also want to malloc other
+memory and point to it here.
+
+"SysPointer(25)"
+Points to: "has_segments : integer"
+
+     This location is 1 if the LARGE model ALICE is running
+and it is legal to specify segments on RawPointers.  It is
+zero otherwise.
+
+"SysPointer(26)"
+Points to: "cmd_preproc : LARGE routine_address"
+
+     If this address is non zero, a far CALL is done to it
+when ALICE has received a command or token of input.  The
+routine is passed (in C style) the input token (possibly
+TOK_CMD) and the address of the text buffer containing the
+text of the command or token ("tokentext" above).  If it re-
+turns zero, normal ALICE command processing is done.  Other-
+wise it is not done.
+
+"SysPointer(27)"
+Points to: "errno : integer"
+
+     This is the C Stdio library's error return variable.
+
+"SysPointer(29)"
+Points to: "last_ioerr : integer"
+
+     The error status as ioresult would return.
+
+"SysPointer(31)"
+Points to: "does_flicker : integer"
+
+     The (boolean) indicator that this machine has a color graphics
+adapter with the "flicker" problem.
+
+"SysPointer(32)"
+Points to: "screen_mem_addr : integer"
+
+     The segment of the screen memory used by the output libraries.
+Only change this if you have a nonstandard display card.
+
+"SysPointer(33)"
+Points to: "mono_adapter : integer"
+
+     A (boolean) flag indicating the presence of the IBM monochrome
+display adapter.  This display doesn't flicker, and can underline.
+Refer to ScrXY to read this value.
+
+"SysPointer(35)"
+Points to: "free_top : pointer"
+
+     Points to the top of the dynamic memory heap, and also the bottom
+of the stack for downward growth.  Machine language libraries may want
+to look at this value when checking for stack overflow.
+
+"SysPointer(37)"
+Points to: "cfunc_array : array[1..80] of ^(routine)"
+
+     This is the array that CProc indexes into to find the addresses
+of the routines it calls.  cfunc_array[0] contains the address of the
+"atoi" function.  Note that entries in this array are 4 byte long pointers,
+regardless of the ALICE model.
+
+"SysPointer(39)"
+Points to: "tc_result : long"
+
+     The results of any machine language library call (TPLibProc) are
+stored here.  AX goes in the lower half and DX in the upper half.
+Refer to this location if you must get at what was in the DX register.
+
+"SysPointer(40)"
+Points to: "io_res_on : integer"
+
+     This is the user i/o checking status.  This is set by calls to
+iochecking.  It is 1 for user i/o checking and 0 for system checking.
+If use i/o checking is enabled, i/o routines put their status in
+last_ioerr, above.
+
+"SysPointer(41)"
+Points to: "tr_segment : integer"
+
+     The 8086 segment where the program tree is kept in the
+SMALL ALICE.  This value changes during an ALICE session.
+
+"SysPointer(42)"
+Points to: "st_segment : integer"
+
+     The 8086 segment where the comments are kept in the
+SMALL ALICE.  This value changes during an ALICE session.
+

@@ -1,0 +1,111 @@
+ALICE / Turbo portablility tricks.
+
+These days it's every important to make sure programs you write are
+portable.  The number of new computers grows almost every day, and unless
+you write a program just for yourself, you may have to worry about getting
+it to run on another computer.  New Pascal systems like ALICE come out all
+the time, and if they offer superior debugging features like ALICE does,
+you'll want to make sure you can move your programs around.
+
+No two systems, no matter how compatible they claim to be, are identical
+at the lowest level.  This doesn't mean that well written programs can't
+be moved freely from one system to another.  In this case, you're concerned
+about moving your programs between ALICE and Turbo Pascal, so here are
+some points to consider:
+
+- Never refer directly to the length byte at the zeroth index of a string.
+  Use the length function.  Build your strings using string builder
+  functions.
+
+- If you want the address of the first character in a string, use constructs
+  like address(strvar[1]) or Ofs(strvar[1]).  This works no matter what is
+  on the front of a string.
+
+- When referring to non-packed arrays of char, pass them through a function
+  if you want to use them like a string.
+
+- Instead of assigning a string to a char variable (or passing one to a char
+  parameter) write a function that takes a string and returns the first one.
+
+- Use untyped var parameters instead of untyped file parameters.
+
+- Write functions and procedures for your direct memory and port access.
+  You can code these functions differently for all the various Pascal
+  systems.
+
+- Isolate any low level access you make in a function or procedure.  Then
+  you only have to change this routine to move your program from system
+  to system.
+
+- Don't put absolute variables into the low Bios memory.  There are usually
+  BIOS or DOS functions that do what you want in a portable way.  If your
+  application isn't super speed critical, figure out a more portable way
+  of doing things.  One user set the Num-Lock flag directly in the keyboard
+  driver to allow people to enter numbers.  This would break on a clone with
+  a different keyboard driver, so we suggested he just map the arrow keys
+  into numbers for the user.
+
+- Don't assume there is one 64K code segment with all your code, and that
+  function addresses are an integer offset into this segment.  Turbo Pascal
+  is one of the few compilers left that insists programs fit into 64K.
+  Most others allow 32 bit function and procedure addresses.  ALICE only
+  works with small programs right now, but plan for the future.
+
+- Don't assume that "structured typed constants" are in this special
+  code segment either.  That isn't where ALICE keeps them.
+
+- Never use an 'undocumented feature' of the Turbo Pascal compiler.
+  Other Pascals will not support them, and even Turbo Pascal may not
+  support them in future releases.
+
+- Stay away even from documented absolute memory references.  A portable
+  program would work on Turbo Pascal for MS-DOS and CP/M.  You can't do
+  absolute references at all in such a program.
+
+- Don't write directly to the screen memory.  New display cards come out
+  all the time with different memory configurations, and you may encounter
+  problems.
+
+- Don't rely on one particular systems interpretation of how end-of-line
+  and end-of-file markers are written into text files.  Turbo's use of
+  CR and LF is very nonstandard as far as Pascals are concerned.  Always
+  check for end of line markers with eoln, always read them with readln,
+  and always write them with writeln.
+
+- Don't rely on 'ioresult' if you can.  Read numbers in from the keyboard
+  as strings and process them yourself.  Always isolate your uses of
+  ioresult by writing things like "does this file exist" functions
+  and "can I seek that far" functions.
+
+- If you need the size of a type, take "SizeOf" on a variable of that type.
+
+- Beware of the different memory size ALICE uses for variables of string and
+  real types.  Take care when trying to allign a record on top of somebody
+  else's data structures.
+
+- Never use Mark and Release.  New and Dispose are found in every Pascal,
+  although some don't implement Dispose.
+
+- Don't play directly with file interface blocks as Turbo Pascal defines
+  them.  Nobody does this sort of interface the same way.
+
+- Put a program statement on your programs.  Refer to input and output if
+  you do these operations.
+
+- If you want to work under Turbo, don't use any of the Standard Pascal
+  features Turbo documents as missing.  These include get, put, pack,
+  unpack, page, file buffer variables, procedures and functions as
+  parameters and non-local gotos.
+
+- Don't make use of special control characters embedded in strings.
+  See if there is a less compiler specific route.
+
+- Don't use in-line machine code.  ALICE is an interpreter, and as such
+  you can't expect your programs to work with blinding speed.  Inline
+  code won't help you much in this department, unless you do whole
+  loops in machine code.
+
+- Don't assume the nonstandard {$+B} method of keyboard input Turbo uses.
+  Always work instead with {$-B}, according to the rules of Standard
+  Pascal
+

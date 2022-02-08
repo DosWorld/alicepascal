@@ -1,0 +1,178 @@
+What's new in the large model ALICE?
+------------------------------------
+
+Absolute variables as in Turbo Pascal
+	Be warned that nonetheless certain absolute memory references from
+	Turbo programs will not mean the same thing in ALICE.
+	In particular those in SSeg and DSeg, and many of those in CSeg.
+
+Mem array and Port array as in Turbo Pascal
+	(Their use is discouraged.)
+
+Predefined files Con, Lst, Aux, Trm, Inp, Out, Err
+	(Aux does not work exactly as in Turbo.)
+
+The two missing Standard Pascal routines "pack" and "unpack" are implemented.
+
+32 bit pointers!  Full operation from Address, Seg, RawPointer & Ptr!
+
+Up to 64K of runtime stack/heap.
+
+Program size up to the limit of your memory.
+	(Note:  Programs take up almost twice the memory they do in the small
+	model version, so 640K is necessary to take true advantage of this.
+	Approximate maximum size program of 3000 lines.)
+
+All the Turbo Pascal built in constants from the Turbo library TURBOLIB.AP
+	Colours, Screen modes
+
+Special symbols CSeg, DSeg, SSeg to access segment registers.
+	These are actually constants and can be used in absolute variables.
+	Note that CSeg actually gives the segment of DOS's "program segment
+	prefix" or PSP.  It does not refer to the "code segment" of ALICE,
+	since this is not meaningful in a program with more than 64K of
+	code.  Some old Turbo programs look at the PSP to get command line
+	arguments.  This will work, but you will get ALICE's command line
+	arguments, not the ones your program is expecting.  Use the
+	ParamStr routine instead.  Note that initialized variables will
+	also not be found in the CSeg segment.
+
+All the Turbo Pascal routines from the Turbo library TURBOLIB.AP
+	Screen control          (CrtExit,CrtInit,WhereX,WhereY)
+	Byte manipulation       (Lo,Hi,Swap)
+	Sound                   (NoSound)
+	System Calls            (MsDos)
+	File Handling           (Erase,Flush,SeekEoln,SeekEof,Rename,FilePos
+				LongFilePosition,LongFileSeek,BlockRead,
+				BlockWrite,FileSize,LongFileSizer)
+	Pointers                (Addr,Ptr,Ofs,Seg)
+	Memory                  (Move,Fillchar)
+	Directories             (Chdir,MkDir,RmDir,GetDir)
+	Old Allocator           (Mark,Release)
+	Command Line            (ParamCount,ParamStr)
+
+
+
+Untyped file supported with named type "AnyFile".  (APIN does automatic
+	conversion)
+
+Turbo Pascal "Exit" procedure for terminating subroutines.
+
+Optional 4th argument on BlockRead/BlockWrite
+	Be warned that although this reports a number of 128 byte
+	records, it is possible for a partial record to be read in from
+	files with sizes that are not a multiple of 128 bytes.  The
+	extra bytes will be marked as uninitialized, and any attempt
+	to use them will naturally cause an error.
+
+Some new routines not found in Turbo Pascal:
+
+	OpenDir/ReadDir
+		These routines allow you to find the names of the
+		files in a given directory.  Call OpenDir first to
+		start things going, and then successive calls to readdir
+		return a string with the associated file name.
+
+	ArToString( array )
+		Takes an array of char (non-packed, non-string) and returns
+		a string value based on the characters in the array.
+		Useful for reading system structures with fixed size arrays.
+
+	StringToAr( array, string )
+		Takes a string and stuffs it into a non-packed, non-string
+		array of char.  Reverse of above routine.
+
+
+New version of APIN:
+
+	This new APIN supports both the large and small model versions of
+	ALICE, so you can replace your old one.  It has a new option to
+	specify which version you want.  The default is "-L" which causes
+	it to act like the small model version.  This includes routines from
+	the "TURBOLIB.AP" library and warns about large model features that
+	may not work in the small model version.  If you specify "+L",
+	you can process large model features and the library will not
+	be merged in unless you specify it explicitly.  (Routines in the
+	library were not intended to run in the large model version anyway.)
+
+	When loading a file that ends in ".PAS" from ALICE, the large model
+	version knows to add the "+L" option when calling APIN.
+
+New template files
+
+	NLBEGIN.SUF, SHOWEND.SUF and APTEMPLA.SUF
+		These can replace the small model versions.  They are
+		slightly larger to include absolute variables.  Some
+		minor bugs in the templates for variant records and trace
+		blocks have been fixed.
+
+New HELPFILE.HUF
+
+	This can replace the old one, but it is bigger with almost 100 new
+	help screens (over 700 now) so you may not have room on floppy based
+	systems.
+
+Large model ALICE does not require APBUILT.SUF.  The small model versions
+will still always require this file.
+
+Your AP.INI file is the same as before, so keep your old one.
+
+APRUN.EXE
+
+	The stand alone interpreter is meant for the small model ALICE.
+	It is in fact, the same interpreter.  If you are using the large
+	model ALICE for improved Turbo Pascal compatability, you will want
+	to make your program stand alone by compiling it.
+
+		    -----------------------------
+
+Notes on differences with small version:
+
+1) The old APIN converted untyped files to BlockFile.  The new name is
+AnyFile.  You can just have
+
+	type
+	    BlockFile = Anyfile;
+
+or design your own change scheme based on the purpose of your variable.
+The BlockRead/BlockWrite routines now insist on an untyped file.
+
+2) The TURBOLIB.AP library routines were not designed for large model,
+and they should not be used with the large model Alice.  Since they
+take up space, you will want to delete them.  The easiest way to do this
+is to run your program through the large-model version's APIN.
+
+3) APIN with "+L" doesn't include the TURBOLIB.AP library by default.
+The default (-L) still includes the library and warns about large model
+features that won't work in the small model version.
+
+4) Beware of any code you wrote involving segments which may not work, now
+that they are fully operational.
+
+5) INLINE assembler is not supported in ALICE.  If you must have it, you
+can code INLINE statements with the ALICE "NOT" feature.  Just type "not"
+on a <<Statement>> placeholder and you will get a comment with no braces
+around it.  ALICE will ignore what is on this line, but Turbo Pascal will
+compile it.  Put your INLINE statements here, but be reminded that they
+will only be executed when the program is compiled with Turbo Pascal.
+
+Most INLINE assembler simply wouldn't work with ALICE - the environment
+is too different.  ALICE doesn't use the same segmentation structure as
+Turbo Pascal; the register, memory and stack usages are quite different.
+ALICE is an interpreter, ALICE routines can't really service interrupts.
+
+If you want INLICE assembler for raw speed, you can either code up an
+external library for ALICE and Turbo, or use the NOT feature above.
+Many people use inline assembler to speed up graphics and screen access.
+The ALICE routines for this are quite fast and will never slow an
+interpreted program down.
+
+6) Remember that argument passing for TPLibProcs is different.  Arguments
+prepared with the pointers broken up will work in both modes.  Don't forget
+that the BX register contains the ALICE version.  For versions >= 130 (1.3),
+this is odd for large model and even for regular model.
+
+7) The routine LongFilePosition has changed to LongFilePos.  The Turbo Pascal
+manual documents this routine, but they misnamed it and as a result,
+so did we.
+

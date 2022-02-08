@@ -1,0 +1,61 @@
+
+
+     Contents of the ALICE: The Personal Pascal Distribution Disks:
+
+PRIMARY ALICE DISK:		(*) means necessary to run ALICE
+
+	ALICE.EXE	- The actual ALICE program (*)
+	AP.INI		- ALICE configuration file, with startup options (*)
+	APBUILT.SUF	- Built-in symbols and error messages (*)
+	APTEMPLA.SUF	- Templates for the Pascal language (*)
+	APIN.EXE	- Pascal parser that translates text versions of
+			  Pascal programs into ALICE format
+	TURBOLIB.AP	- Library of Turbo Pascal builtin routines
+	SIEVE.AP	- Famous prime number program
+	CONTENTS	- This file
+	UPDATES		- Notes, bugs and errata for ALICE and manuals.
+	TURBOLIB.PAS	- Source version of TURBOLIB.AP
+
+ALICE SUPPLEMENTAL DISK:
+	HELPFILE.HUF	- Compressed help files
+	APRUN.BAT	- Standalone ALICE Pascal interpreter
+	NLBEGIN.SUF	- Template file with alternate begin-end style
+	SHOWEND.SUF	- Template file that shows block types on "end"s
+	CPROC.DOC	- Documentation on C interface routines
+	SYSPOINT.DOC	- Documentation on ALICE internal pointers
+	QA.DOC		- Questions and Answers on ALICE
+	APLIB		- Directory of ALICE libraries
+		MENULIB.AP	- Pop-up menu routines
+		ALICELIB.AP	- Alice interface routines
+		CLIB.AP		- C style I/O interface
+		MISCLIB.AP	- General C library routines
+		APCOMMAND.AP	- Issue an ALICE command in a program
+		WINDOW.AP	- CURSES windowing routines
+		DOSLIB.AP	- IBM/DOS access
+		DOSINT.AP	- DOS interface routines
+		USEFUL.AP	- Chain and Execute routines
+
+	SAMPLES		- Directory of sample programs
+		( Some require a machine with >256K to run)
+		PLOT.AP		- Sample character plot program.
+		COLOURS.AP	- Change text attributes
+		MACROLIS.AP	- List defined macros
+		SECRET.AP	- Guess a secret code game.
+		STARSHIP.AP	- Real time Starship Pilot game.
+		CMAN.AP		- Colour 'Mandala' Graphics demo
+		BOUNCE.AP	- Bouncing Ball program for ALICE
+		BALLS.IM	- Data for BOUNCE.AP
+		INV.AP		- Inventory program
+		INV.DOC		- Documentation for Inventory program
+	TURBO		- Directory of Turbo Pascal related files.
+		ALICELIB.TP	- Turbo Pascal versions of Alice builtins
+		GRAPH.P		- Turbo Pascal Turtle/Extended Graphics
+				  include file.  (Requires GRAPH.BIN)
+		PORT		- Notes on portablility.
+
+	SORTS		- Directory of simple sorting programs.
+			  It can be instructional to run these with
+			  "Cursor Following On."
+		BUBBLE.AP,HEAP.AP,INSERTIO.AP,MERGE.AP,QUICK.AP,
+		RADIX.AP,SELECTIO.AP,SHELL.AP,STUPID.AP
+
