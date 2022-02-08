@@ -11,8 +11,7 @@
 static int indent = 0;
 static treedump(), do_indent(), sym_dump();
 
-dump(loc)
-nodep loc;
+void dump(nodep loc)
 {
 #ifdef DB_DUMP
 #ifndef PARSER

@@ -46,9 +46,8 @@ static	FILE	*Savef;
 static saveMisc();
 static treeCountSyms();
 
-save(flags, safetest)
-int	flags;
-int safetest;		/* should we test if it exists? */
+/* int safetest - should we test if it exists? */
+int save(int flags, int safetest)
 {
 	extern int ascount;
 #ifdef HAS_SAVE
@@ -56,7 +55,7 @@ int safetest;		/* should we test if it exists? */
 
 #ifndef NOT_EDITOR
 	if( safetest && !access( name, 0 ) && !com_menu( M_save, TRUE ) ) 
-		return;
+		return 0;
 #endif
 
 

@@ -25,7 +25,7 @@ typedef unsigned char bits8;
 typedef unsigned bits16;
 #else
 typedef unsigned short bits16;
-#endif QNX
+#endif // QNX
 
 typedef unsigned char	Boolean;
 typedef bits8 NodeNum;		/* node types, first byte of any node */
@@ -96,9 +96,9 @@ typedef unsigned char uns_char;
 
 #ifdef ECURSES
 typedef unsigned long buf_el;
-#else ECURSES
+#else // ECURSES
 typedef char buf_el;
-#endif ECURSES
+#endif // ECURSES
 
 /*
  * struct definitions for the various tree nodes
@@ -197,7 +197,7 @@ typedef struct _rout_node {
 	bits16 min_params;	/* minimum number of params, replace flags */
 	pint max_params;	/* maximum number of parameters */
 	bargs *r_decls;		/* declaration list, kid2 */
-#endif M_I86MM
+#endif // M_I86MM
 	} rout_node;
 
 /* Pointers to routine nodes */

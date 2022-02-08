@@ -15,7 +15,7 @@ static listp	NewLibDecls;
 static int	LibTreesUsed;
 static nodep	ProgSymtab;
 
-linkLib()
+void linkLib()
 {
 	symptr	s;
 	int	i;

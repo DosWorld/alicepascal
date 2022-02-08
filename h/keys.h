@@ -12,7 +12,7 @@
 #ifdef msdos
 #include "keyibm.h"
 
-#else msdos
+#else // msdos
 
 #define PFKEYNAMES	"F1:Run 2:Step 3:Del 4:Ins 5:Chg 6:Debug 7:Menu 8:File 9:HELP 10:Sel 11:Misc"
 
@@ -40,4 +40,4 @@
 #define AL_QUOTE	CNTL('V')
 #define AL_COMPLETE	KEY_F(3)
 
-#endif msdos
+#endif // msdos

@@ -57,7 +57,7 @@
 # ifdef INTERP
 #  include "idebug.h"
 #  define NOBFUNC
-# else INTERP
+# else // INTERP
 #  ifdef SAI 
 #   include "ldebug.h"
 #   ifndef FUNCTIONS
@@ -65,7 +65,7 @@
 #       define NOBFUNC
 #     endif
 #   endif
-#  else SAI 
+#  else // SAI 
 #   include "debug.h"
 #   ifndef FUNCTIONS
 #    ifdef ES_TREE

@@ -624,7 +624,7 @@ reg nodep symtab;	/* the node that points to the symbol tab for def */
 #ifdef ES_TREE
 
 
-buildin()
+void buildin()
 {
 	register symptr ptr;
 	register char	*p;
@@ -662,7 +662,7 @@ buildin()
 rfloat our_pi = FLOATNUM(3.14159265358979323846);
 #endif
 
-buildin()
+void buildin()
 {
 	register symptr ptr;
  	extern struct symbol_node ndpi;

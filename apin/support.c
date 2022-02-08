@@ -88,9 +88,10 @@ symptr	inventType();
 # define N_VAR_ABSOLUTE	N_CONST_INIT
 #endif
 
-fixupDecls(decls, symtab)
-listp	decls;				/* declaration list for this block */
-nodep	symtab;				/* symbol table for this block */
+/* listp decls - declaration list for this block */
+   nodep symtab - symbol table for this block
+*/
+void fixupDecls(listp decls, nodep symtab)
 {
 	nodep	decl;
 	int	i;
@@ -630,19 +631,15 @@ listp params;	/* list of the parameters to the routine */
 #endif
 
 
-extern int	Errors;
+extern int Errors;
 
-nonfatal(str, a1, a2, a3)
-char	*str;
-char	*a1, *a2, *a3;
+void nonfatal(char *str, char *a1, char *a2, char *a3)
 {
 	message(str, a1, a2, a3);
 	Errors--;
 }
 
-fatal(str, a1, a2, a3)
-char	*str;
-char	*a1, *a2, *a3;
+void fatal(char *str, char *a1, char *a2, char *a3)
 {
 	message(str, a1, a2, a3);
 #ifdef GERMAN
@@ -685,9 +682,7 @@ char *str, *a1, *a2, *a3;
 	
 }
 
-unsupported(str, a1, a2, a3)
-char	*str;
-char	*a1, *a2, *a3;
+void unsupported(char *str, char *a1, char *a2, char *a3)
 {
 	message(str, a1, a2, a3);
 	Errors--;
@@ -695,7 +690,7 @@ char	*a1, *a2, *a3;
 	HadUnsupp = TRUE;
 }
 
-checkUnsupported()
+void checkUnsupported()
 {
 	if (HadUnsupp) {
 #ifdef GERMAN

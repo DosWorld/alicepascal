@@ -8,7 +8,7 @@
  * when the cursor is on an unexpanded stub of the given class.
  */
 
-#define C_ROOT 0
+#define C_ROOT 
 
 #define C_COMMENT 1
 
@@ -77,3 +77,42 @@
 #define C_ROUTNAME 34
 
 #define C_ABSID 35
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+

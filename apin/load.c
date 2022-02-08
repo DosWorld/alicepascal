@@ -175,8 +175,7 @@ char *fnam, *opts;
 	return fopen( fnam, opts );
 }
 
-LoadLibrary(name)
-char	*name;
+void LoadLibrary(char *name)
 {
 	printt1("LoadLibrary(%s)\n", name);
 
@@ -188,7 +187,7 @@ char	*name;
 	LibSymtab = sym_kid(LibTree);
 }
 
-LoadRestOfLibrary()
+void LoadRestOfLibrary()
 {
 	int	i;
 	int	n_kids;
@@ -201,7 +200,7 @@ LoadRestOfLibrary()
 	cleanup(TR_OK);
 }
 
-AbandonRestOfLibrary()
+void AbandonRestOfLibrary()
 {
 	cleanup(TR_OK);
 }
@@ -258,7 +257,7 @@ int	err;
 
 	WhereDeclsChanged = (nodep)NIL;
 	CheckAt = (nodep)NIL;
-#endif EDITOR
+#endif // EDITOR
 
 	mem_cleanup = (funcptr)0;
 
@@ -328,8 +327,8 @@ nodep top;
 	zap_history();
 	clean_curws();
 }
-#endif SAI
-#endif PARSER
+#endif // SAI
+#endif // PARSER
 
 #ifdef EDITOR
 /*
@@ -365,7 +364,7 @@ nodep top;
 	set_wscur( curr_window, cursor = cur_work_top );
 	curr_window->big_change = TRUE;
 }
-#endif EDITOR
+#endif // EDITOR
 
 static
 check_format(okay, where)
@@ -523,7 +522,7 @@ nodep parent;
 #else
 		s_sym_name(sp, allocstring(get_string(ls_buffer, loadf)));
 		printt1("loaded %s\n", sym_name(sp));
-#endif SAI
+#endif // SAI
 		s_sym_nhash(sp, hash(sym_name(sp)));
 		s_sym_value(sp, (pint)getword(loadf));
 		s_sym_saveid(sp, sym_no);

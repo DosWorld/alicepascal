@@ -8,7 +8,7 @@
 struct al_window {
 #ifdef getyx
 	WINDOW *w_desc;			/* pointer to curses window struct */
-#endif getyx
+#endif // getyx
 	int w_height;			/* how many lines in the window */
 	int w_width;			/* how many columns */
 	struct scr_line *w_lines;	/* line information tables */

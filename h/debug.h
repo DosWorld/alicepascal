@@ -29,7 +29,7 @@
 # define dmfree(p)              mfree(p, __FILE__, __LINE__)
 #else
 # define dmfree(p)              mfree(p)
-#endif DMFREE
+#endif // DMFREE
 
 #ifdef DEBUG
 

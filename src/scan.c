@@ -2,6 +2,7 @@
  *DESC: Scanner for tokens from keyboard input
  */
 
+#include <string.h>
 #include "alice.h"
 #include "scan.h"
 #include "token.h"

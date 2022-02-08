@@ -249,11 +249,11 @@
 # else STACKCHECK
 #  define stackcheck()	asm("	cmp	sp,stack_base"); asm( "	jb	<stackerr>" );
 # endif STACKCHECK
-#else QNX
+#else // QNX
 # ifndef msdos
 # define stackcheck()
 # endif
-#endif QNX
+#endif // QNX
 
 #ifdef UDEBUG
 #if defined(ATARI520ST) || defined(QNX) || defined(DEMO) || (defined(LARGE) && defined(msdos))
@@ -263,8 +263,8 @@
 # define check_undef(l,b) {register unsigned CU;if((long)l>>16==SSeg&&(CU=(pointer)(l)-(pointer)exec_stack)<=max_stack_size&&!(*(pointer)(undef_bitmap+(CU>>3))&(1<<(CU&7))) )CUerror();}
 #else
 # define check_undef(l,b) {register unsigned CU;if((CU=(pointer)(l)-(pointer)exec_stack)<=max_stack_size&&!(*(pointer)(undef_bitmap+(CU>>3))&(1<<(CU&7))) )CUerror();}
-#endif LARGE
-#endif QNX
+#endif // LARGE
+#endif // QNX
 #else /* UDEBUG */
 #  define check_undef(l,b)
 #endif /* UDEBUG */

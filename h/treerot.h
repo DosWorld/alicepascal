@@ -3,7 +3,7 @@
  */
 
 extern char	*mmalloc();
-extern		mfree();
+extern void mfree(void *);
 extern nodep root_node;			/* root of the program tree */
 extern listp super_root;		/* special parent of the root */
 
@@ -157,7 +157,7 @@ extern node BT_boolean, BT_set, BT_text;
 #ifndef NOFUNCS
 extern node BT_anytype;
 #endif
-#endif ES_TREE
+#endif // ES_TREE
 
 /* parameters to slookup() */
 #define CREATE		TRUE

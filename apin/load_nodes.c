@@ -95,9 +95,8 @@ static char operr[] = "Cannot open template file\n";
 static char rderr[] = "Error while reading template file\n";
 static char wgerr[] = "Incompatible template file\n";
 
-int
-LoadNodes(fname)
-char *fname;		/* template file */
+/* template file */
+int LoadNodes(char *fname)
 {
 	FILE *fp;
 

@@ -19,7 +19,7 @@ typedef struct _work {
 #ifdef getyx
 	WINDOW *ws_r_output;		/* window for program output */
 	WINDOW *ws_db_output;		/* window for debug output */
-#endif getyx
+#endif // getyx
 	} workspace;
 
 typedef workspace *workp;

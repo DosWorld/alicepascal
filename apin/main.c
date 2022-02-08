@@ -1,3 +1,9 @@
+#include <stdlib.h>
+#include <string.h>
+#ifdef UNIX
+#include <unistd.h>
+#include <sys/types.h>
+#endif
 #include "alice.h"
 #include <curses.h>
 #include "workspace.h"
@@ -16,21 +22,30 @@ int listing = 0;		/* nonzero if user wants a listing */
 char *templ_fname = ALICETPL;
 #endif
 
-int	Errors	= 0;
+int Errors = 0;
 
 #ifdef foo
-int	turbo_flag	= FALSE;	/* accept Turbo Pascal extensions by default */
+int turbo_flag = FALSE;	/* accept Turbo Pascal extensions by default */
 #else
-int	turbo_flag	= TRUE;	/* accept Turbo Pascal extensions by default */
+int turbo_flag = TRUE;	/* accept Turbo Pascal extensions by default */
 #endif
 
 extern workspace main_ws;
 extern int smallflag;			/* small model flag */
 workspace *curr_workspace = &main_ws;	/* the current workspace */
 
-main(argc,argv)
-int argc;
-char **argv;
+extern int save(int flags, int safetest);
+extern void fatal(char *str, char *a1, char *a2, char *a3);
+extern void nonfatal(char *str, char *a1, char *a2, char *a3);
+extern void dump(nodep loc);
+extern void fixupDecls(listp decls, nodep symtab);
+extern void linkLib();
+extern void LoadLibrary(char *name);
+extern void checkUnsupported();
+extern int LoadNodes(char *fname);
+extern void buildin();
+
+int main(int argc, char **argv)
 {
 	int res;
 	char trace_name[30];
@@ -75,7 +90,7 @@ char **argv;
 					setbuf( dtrace, (char *)NULL );
 #endif
 				break;
-#endif RELEASE
+#endif // RELEASE
 			case 'i':	/* input file */
 				inf_name = argv[0] + 2;
 				break;
@@ -175,11 +190,11 @@ char **argv;
 		yyin = fopen(inf_name, "r");
 		yyfilename = inf_name;
 		if (yyin == NULL) {
-#ifndef unix
+#ifndef UNIX
 			fprintf(stderr, "Can't open %s\n", inf_name);
 #else
 			perror(inf_name);
-#endif unix
+#endif // UNIX
 			exit(2);
 		}
 	}
